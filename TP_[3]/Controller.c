@@ -580,8 +580,8 @@ int controller_OrderMenu(void)
 
 	option = RequestIntInRange("\nElija el modo de ordenamiento.\n"
 														"1 - Para ascendente.\n"
-														"2 - Para descendente\n"
-														"Como ordenamos: ", "Opcion no valida", 1, 2);
+														"0 - Para descendente\n"
+														"Como ordenamos: ", "Opcion no valida", 0, 1);
 
 	return option;
 }
