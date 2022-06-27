@@ -1,22 +1,11 @@
 /*
- * Menus.c
+ * 	Menus.c
  *
- *  Created on: 12 abr. 2022
+ *  	Created on: 12 abr. 2022
  *      Author: Gil Nicolás David
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <math.h>
-#include <string.h>
-#include "Ingresos.h"
-#include "Calculos.h"
 #include "Menus.h"
-#define RED "\x1b[31m"
-#define GREEN "\x1b[32m"
-#define CYAN "\x1b[36m"
-#define RESET "\x1b[0m"
 
 void MenuPrincipal(void)
 {
@@ -38,73 +27,39 @@ void MenuPrincipal(void)
 	float precioAerolineasBitcoin;
 	float precioAerolineasKilometro;
 	float diferenciaLatamAerolineas;
-	char mensajeKilometros[50] = "Ingrese los kilometros de su vuelo: ";
-	char mensajeVuelos[50] = "Ingrese el costo de su vuelo: ";
+	char mensajeKilometros[50] = "\nIngrese los kilometros de su vuelo: ";
+	char mensajeVuelos[50] = "\nIngrese el costo de su vuelo: ";
 	int flagCalculosHechos = 0; 	/// Verifica no entrar en mostrar resultados sin haber calculado antes.
 
 	do
 	{
-		if(flagKilometros == 0 && flagPrecioAerolineas == 0 && flagPrecioLatam == 0)
-		{
-			MenuInteractivo(0, 0, 0);
-		}
-		if(flagKilometros == 1 && flagPrecioAerolineas == 0 && flagPrecioLatam == 0)
-		{
-			MenuInteractivo(kilometrosIngresados, 0, 0);
-		}
-		if(flagKilometros == 1 && flagPrecioAerolineas == 1 && flagPrecioLatam == 0)
-		{
-			MenuInteractivo(kilometrosIngresados, precioAerolineas, 0);
-		}
-		if(flagKilometros == 1 && flagPrecioAerolineas == 0 && flagPrecioLatam == 1)
-		{
-			MenuInteractivo(kilometrosIngresados, 0, precioLatam);
-		}
-		if(flagKilometros == 0 && flagPrecioAerolineas == 1 && flagPrecioLatam == 0)
-		{
-			MenuInteractivo(0, precioAerolineas, 0);
-		}
-		if(flagKilometros == 0 && flagPrecioAerolineas == 0 && flagPrecioLatam == 1)
-		{
-			MenuInteractivo(0, 0, precioLatam);
-		}
-		if(flagKilometros == 0 && flagPrecioAerolineas == 1 && flagPrecioLatam == 1)
-		{
-			MenuInteractivo(0, precioAerolineas, precioLatam);
-		}
-		if(flagKilometros == 1 && flagPrecioAerolineas == 1 && flagPrecioLatam == 1)
-		{
-			MenuInteractivo(kilometrosIngresados, precioAerolineas, precioLatam);
-		}
-		scanf("%d", &respuestaOpcion);
-
+		respuestaOpcion = MenuInteractivo(kilometrosIngresados, precioAerolineas, precioLatam);
 		switch(respuestaOpcion)
 		{
 			case 1:
-				kilometrosIngresados = PedirIngresoNumero(mensajeKilometros);
+				kilometrosIngresados = RequestIntInRange(mensajeKilometros, "Ingreso no valido", 1, INT_MAX);
 				flagKilometros = 1;
 				break;
 			case 2:
 				printf("\n¿Qué precio desea ingresar o modificar?\n"
 							"\t1- Para ingresar o modificar precio de Aerolineas Argentinas. \n"
 							"\t2- Para ingresar o modificar precio de LATAM. \n"
-							"\t3- Volver sin modificar.\n"
-							"Ingrese opción deseada: ");
-				scanf("%d", &respuestaCase2);
+							"\t3- Volver sin modificar.\n");
+				respuestaCase2 = RequestIntInRange("Ingrese opción deseada: ", "Opcion no valida", 1, 3);
 				switch(respuestaCase2)
 				{
 					case 1:
-						precioAerolineas = PedirIngresoNumero(mensajeVuelos);
+						precioAerolineas = RequestIntInRange(mensajeVuelos, "Ingreso no valido", 1, INT_MAX);
 						flagPrecioAerolineas = 1;
 						break;
 					case 2:
-						precioLatam = PedirIngresoNumero(mensajeVuelos);
+						precioLatam = RequestIntInRange(mensajeVuelos, "Ingreso no valido", 1, INT_MAX);
 						flagPrecioLatam = 1;
 						break;
 					case 3:
 						break;
 					default:
-						printf(RED"\nAlgo salió mal, por favor ingrese solo números positivos: \n"RESET);
+						printf("\nAlgo salió mal, por favor ingrese solo números positivos: \n");
 						break;
 				}
 				break;
@@ -122,40 +77,33 @@ void MenuPrincipal(void)
 				    precioAerolineasKilometro = CalcularDiferenciaPrecioKilometro(precioAerolineas, kilometrosIngresados, 1);
 				    diferenciaLatamAerolineas = CalcularDiferenciaPrecioKilometro(precioAerolineas, precioLatam, 2);
 				    flagCalculosHechos = 1;
-				    printf(GREEN"\n");
-				    printf("=================================================================================================================");
-				    printf("\nYa hemos realizado las operaciones solicitadas. \n"
-				    			"La opción 4 para ver los resultados ya esta habilitada. \n");
-				    printf("=================================================================================================================");
-				    printf("\n"RESET);
+
+				    printf("\n================================================================================================================="
+								"\nYa hemos realizado las operaciones solicitadas. \n"
+								"La opción 4 para ver los resultados ya esta habilitada. \n"
+								"=================================================================================================================\n");
 				}else
 				{
-					printf(RED"\n");
-					printf("=================================================================================================================");
-					printf("\nLo sentimos, no se ha podido  realizar esta operación. \n"
-								"Debemos tener ingresados los kilometros y los precios de los vuelos.\n");
-					printf("=================================================================================================================");
-					printf("\n"RESET);
+					printf("\n================================================================================================================="
+								"\nLo sentimos, no se ha podido  realizar esta operación. \n"
+								"Debemos tener ingresados los kilometros y los precios de los vuelos.\n"
+								"=================================================================================================================\n");
 				}
 				break;
 			case 4:
 			    if(flagCalculosHechos == 1)
 			    {
-			    	printf("\n");
-			    	printf(GREEN"=================================================================================================================");
-		            printf("\nEstos son los resultados obtenidos: \n"RESET CYAN
-	                       "\nKilometros Ingresados:"RESET "%.2f \n", kilometrosIngresados);
-		            printf(CYAN"\nLatam: \n");
-		            printf(RESET);
+			    	printf("\n=================================================================================================================");
+		            printf("\nEstos son los resultados obtenidos: \n"
+	                       "\nKilometros Ingresados: %.2f \n", kilometrosIngresados);
+		            printf("\nLatam: \n");
 		            printf("\nValor total: $%.2f \n", precioLatam);
 	                printf("Precio con tarjeta de débito: $%.2f \n", precioLatamDebito);
 	                printf("Precio con tarjeta de crédito: $%.2f \n", precioLatamCredito);
 	                printf("Precio con Bitcoin: %.2lf BTC \n", precioLatamBitcoin);
 	                printf("Precio por kilometros: $%.2f \n", precioLatamKilometro);
-	                printf("\n");
-	                printf(CYAN);
-	                printf ("Aerolíneas Argentinas: \n");
-	                printf(RESET);
+
+	                printf ("\nAerolíneas Argentinas: \n");
 	                printf("\nValor total: $%.2f \n", precioAerolineas);
 	                printf("Precio con tarjeta de débito: $%.2f \n", precioAerollineasDebito);
 	                printf("Precio con tarjeta de crédito: $%.2f \n", precioAerolineasCredito);
@@ -163,68 +111,63 @@ void MenuPrincipal(void)
 	                printf("Precio por kilometros: $%.2f \n"
 	                       "\n", precioAerolineasKilometro);
 	                printf("La direfencia entre ambos vuelos es: %.2f \n", diferenciaLatamAerolineas);
-	                printf(GREEN"=================================================================================================================");
-	                printf(RESET"\n");
+	                printf("=================================================================================================================\n");
+
 
 			    }else
 			    {
-			    	printf(RED"\n");
-			    	printf("=================================================================================================================");
-			        printf("\nNo podemos realizar esta operación sin antes realizar los cálculos.\n"
-			        			"Tiene a su disposición la opción 3 para esto. \n");
-			        printf("=================================================================================================================");
-			        printf(RESET"\n");
+
+			    	printf("\n================================================================================================================="
+								"\nNo podemos realizar esta operación sin antes realizar los cálculos.\n"
+								"Tiene a su disposición la opción 3 para esto. \n"
+								"=================================================================================================================\n");
 			    }
 			    break;
 			case 5:
 				IniciarCargaForzada();
 				break;
 			case 6:
-				printf(RED"\nEsta a punto de abandonar el programa. Esta seguro? \n"RESET);
-				printf("\n1- Para salir. \n"
-					   " Cualquier otra tecla para volver al programa. \n"
-					   "\n¿Que desea hacer?: ");
-				scanf("%d", &respuestaSalir);
+				printf("\nEsta a punto de abandonar el programa. Esta seguro? \n"
+							"\n1- Para salir. \n"
+						   " Cualquier otra tecla para volver al programa. \n");
+				respuestaSalir = RequestIntInRange("\n¿Que desea hacer?: ", "Ingreso no valido.", 1, INT_MAX);
 				switch(respuestaSalir)
 				{
 					case 1:
-						printf(GREEN"\n");
-						printf("=================================================================================================================");
-						printf("\nGracias por usar nuestro programa! Hasta pronto. \n");
-						printf("=================================================================================================================");
+						printf("\n================================================================================================================="
+									"\nGracias por usar nuestro programa! Hasta pronto. \n"
+									"=================================================================================================================");
 						break;
 					default:
-						printf("\n");
-						printf("=================================================================================================================");
-						printf("\nGracias por quedarte! Sigamos... \n");
-						printf("=================================================================================================================");
-						printf("\n"RESET);
+						printf("\n"
+									"================================================================================================================="
+									"\nGracias por quedarte! Sigamos... \n"
+									"=================================================================================================================\n");
 						break;
 				}
 				break;
 				default:
-						printf(RED"\nLo sentimos, el ingreso no corresponde a un valor válido del menu.\n"
-									"Por favor ingrese otro valor: \n"RESET);
+						printf("\nLo sentimos, el ingreso no corresponde a un valor válido del menu.\n"
+									"Por favor ingrese otro valor: \n");
 				break;
 		}
 	}while(respuestaSalir!= 1);
 }
 
 
-
-
-
-
-void MenuInteractivo(double kilometros, double AeroArg, double Latam)
+int MenuInteractivo(double kilometros, double AeroArg, double Latam)
 {
-	printf(CYAN	"\n¿Qué desea hacer? \n"RESET
-			"\n1- Ingresar Kilometros del vuelo:" GREEN"%.2lf \n"RESET
+	int opcion;
+	printf("\n¿Qué desea hacer? \n"
+			"\n1- Ingresar Kilometros del vuelo: %.2lf \n"
 			"2- Ingresar precios de vuelos: \n"
-			"\tPrecio Aerolineas Argentinas: "GREEN"%.2lf \n"RESET, kilometros, AeroArg);
-	printf("\t\tPrecio Latam:" GREEN"%.2lf \n" RESET
+			"\tPrecio Aerolineas Argentinas: ""%.2lf \n", kilometros, AeroArg);
+	printf("\t\tPrecio Latam: %.2lf \n"
 			"3- Calcular todos los costos. \n"
 			"4- Informar resultados. \n"
 			"5- Carga forzada de datos. \n"
-			"6- Salir \n"CYAN
-			"\nIngrese una opción: "RESET, Latam);
+			"6- Salir \n", Latam);
+	opcion = RequestIntInRange("\nIngrese una opción: ", "Ingreso no valido.", 1, 6);
+
+	return opcion;
 }

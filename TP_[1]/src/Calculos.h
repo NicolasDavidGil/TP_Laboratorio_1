@@ -8,6 +8,8 @@
 #ifndef CALCULOS_H_
 #define CALCULOS_H_
 
+#include "Ingresos.h"
+
 /// @fn 	void IniciarCargaForzada(void)
 /// @brief 	Utilizada solo en el case 5, esta funcion realiza todos los calculos y muestra los resultados por la pantalla a partir de parametros
 /// 		pasados en cosigna y hardcodeados.

@@ -5,18 +5,7 @@
  *      Author: Gil Nicolás David
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <math.h>
-#include <string.h>
-#include "Menus.h"
-#include "Ingresos.h"
 #include "Calculos.h"
-#define RED "\x1b[31m"
-#define GREEN "\x1b[32m"
-#define CYAN "\x1b[36m"
-#define RESET "\x1b[0m"
 
 void IniciarCargaForzada(void)
 {
@@ -45,29 +34,29 @@ void IniciarCargaForzada(void)
 	aerolineasCargaForBitcoin = CuentaDebCreBit(precioAerolineasCargaForzada, 3);
 	aerolineasCargaKilometros = CalcularDiferenciaPrecioKilometro(precioAerolineasCargaForzada, kilometrosCargaForzada, 1);
 	diferenciaLatamAerolineasCargaFor = CalcularDiferenciaPrecioKilometro(precioAerolineasCargaForzada, precioLatamCargaForzada, 2);
-	printf(GREEN"\n");
-	printf("=================================================================================================================");
+
+	printf("\n=================================================================================================================");
 	printf("\n...Iniciando carga forzada... \n");
 	printf("\n=================================================================================================================");
-	printf(RESET CYAN"\nKilometros ingresados: "RESET"%d \n"CYAN
-	       "\nLatam: \n"RESET
-	       "\nValor total: $%.2f \n", kilometrosCargaForzada, precioLatamCargaForzada);
+	printf("\nKilometros ingresados: %d \n"
+			   "\nLatam: \n"
+			   "\nValor total: $%.2f \n", kilometrosCargaForzada, precioLatamCargaForzada);
 	printf("Precio con tarjeta de débito: $%.2f \n", latamCargaForDebito);
 	printf("Precio con tarjeta de credito: $%.2f \n", latamCargaForCredito);
 	printf("Precio con Bitcoin: %.2f BTC \n", latamCargaForBitcoin);
 	printf("Precio por kilometros: $%.2f \n", latamCargaKilometros);
-	printf("\n"CYAN
-	       "Aerolíneas Argentinas: \n"RESET
-	       "\nValor total: $%.2f \n", precioAerolineasCargaForzada);
+	printf("\n"
+			   "Aerolíneas Argentinas: \n"
+			   "\nValor total: $%.2f \n", precioAerolineasCargaForzada);
 	printf("Precio con tarjeta de débito: $%.2f \n", aerolineasCargaForDebito);
 	printf("Precio con tarjeta de credito: $%.2f \n", aerolineasCargaForCredito);
 	printf("Precio con Bitcoin: %.2f BTC \n", aerolineasCargaForBitcoin);
 	printf("Precio por kilometros: $%.2f \n"
-	       "\n", aerolineasCargaKilometros);
+				"\n", aerolineasCargaKilometros);
 	printf("Diferecia entre ambos vuelos: %.2f\n", diferenciaLatamAerolineasCargaFor);
-	printf(GREEN"=================================================================================================================\n");
+	printf("=================================================================================================================\n");
 	printf("\n...Carga forzada completada... \n");
-	printf("\n=================================================================================================================\n"RESET);
+	printf("\n=================================================================================================================\n");
 }
 
 double CuentaDebCreBit(double precio, int aux)
@@ -87,6 +76,7 @@ double CuentaDebCreBit(double precio, int aux)
 
 	return precioFinal;
 }
+
 float CalcularDiferenciaPrecioKilometro(float precio1, float precio2, int aux)
 {
 	float resultado;
@@ -99,7 +89,6 @@ float CalcularDiferenciaPrecioKilometro(float precio1, float precio2, int aux)
 		{
 		    resultado = 0;
 		}
-
 	}
 	if(aux == 2)
 	{
@@ -114,6 +103,5 @@ float CalcularDiferenciaPrecioKilometro(float precio1, float precio2, int aux)
 			resultado = 0;
 		}
 	}
-
 	return resultado;
 }
