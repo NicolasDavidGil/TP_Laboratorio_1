@@ -10,7 +10,7 @@
 void MenuPrincipal(void)
 {
 	int respuestaSalir; 			/// Para case6 verifica el salir del programa.
-	int respuestaOpcion; 			/// Se usa dentro del menu de opciones.
+	int respuestaOpcion; 		
 	double kilometrosIngresados = 0;
 	double precioAerolineas = 0;
 	double precioLatam = 0;
